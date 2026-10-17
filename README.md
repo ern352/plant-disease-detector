@@ -2,6 +2,8 @@
 
 This project uses a Convolutional Neural Network (CNN) to detect plant diseases from leaf images using the PlantVillage dataset.
 
+**🌐 Live demo:** https://huggingface.co/spaces/ERN-low/plant-disease-detector — upload a pepper, potato or tomato leaf photo and get a prediction.
+
 ## 📊 Dataset
 - PlantVillage Dataset (Kaggle: `emmarex/plantdisease`), 20,638 images
 - 15 classes across pepper, potato and tomato leaves
@@ -29,18 +31,23 @@ This project uses a Convolutional Neural Network (CNN) to detect plant diseases 
 - TensorFlow / Keras
 - Google Colab
 - Matplotlib
+- Gradio + Hugging Face Spaces (website)
 
 ## 📈 Results
 | Split | Images | Accuracy |
 |---|---|---|
-| Training | ~16,470 | (fill in from step 6) |
-| Validation | ~4,120 | (fill in from step 6) |
-| Test (held out) | 50 | (fill in from step 8) |
+| Training | 16,471 | 92.7% |
+| Validation | 4,117 | 93.4% |
+| **Test (held out)** | **50** | **94.0% (47/50)** |
+
+- Trained on a Colab T4 GPU (TensorFlow 2.21.0, Keras 3.13.2). Early stopping kept the weights from epoch 11 of 14.
+- Training accuracy is a little lower than validation because data augmentation and dropout are only active during training.
+- All 3 test mistakes were predicted as *Tomato Early blight*: a pepper bacterial spot, a potato late blight and a tomato late blight leaf.
 
 ## 🚀 Future Improvements
 - Transfer Learning (MobileNetV2)
 - Testing on real field photos, not only lab images
-- Deploy as a mobile or web app
+- Mobile app version
 
 ## 👨‍💻 Author
 Your Name
