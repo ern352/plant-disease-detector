@@ -20,7 +20,7 @@ This project uses a Convolutional Neural Network (CNN) to detect plant diseases 
 
 ## ▶️ How to run
 1. Open `Plant_Disease_Detector.ipynb` in Google Colab and set **Runtime → Change runtime type → GPU**.
-2. Run all cells. When asked, upload your `kaggle.json` (never commit this file).
+2. Add your Kaggle API token as a Colab secret named `KAGGLE_API_TOKEN` (🔑 icon in the left sidebar, Notebook access on), then run all cells. Never put the token in the code.
 3. Step 8 prints the accuracy on the 50 held-out images. Step 9 downloads them with `test_report.json`.
 4. To re-test later without retraining, run `batch_test.py` (see its docstring).
 
