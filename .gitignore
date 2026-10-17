@@ -205,3 +205,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Kaggle credentials — never commit
+kaggle.json
+
+# Trained models and generated test data
+*.keras
+*.h5
+test_samples/
+test_samples.zip

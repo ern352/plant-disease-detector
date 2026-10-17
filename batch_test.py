@@ -1,124 +1,112 @@
 """
 Batch Test Script for Plant Disease Detector
 =============================================
-Run this AFTER collect_test_images.py.
-Loads your trained model, runs all images in /content/test_images/,
-and prints a full accuracy report.
+Re-scores the saved model on a folder of labelled test images, e.g. in a new
+Colab session after you've trained once.
 
-Usage:
-    1. Make sure your model is saved as:  /content/plant_disease_model.h5
-       (adjust MODEL_PATH below if different)
-    2. Run this script in Colab after collect_test_images.py
+The test folder must contain one sub-folder per class, named exactly like the
+training classes (the notebook's step 3 creates this as /content/test_samples):
+
+    test_samples/
+        Pepper__bell___Bacterial_spot/xxx.JPG
+        Potato___healthy/yyy.JPG
+        ...
+
+Usage (Colab):
+    1. Upload plant_disease_model.keras and class_names.json to /content
+       (both are written by the notebook's step 7).
+    2. Unzip test_samples.zip into /content/test_samples.
+    3. !python batch_test.py
 """
 
-import os
 import json
+import os
+
 import numpy as np
-from PIL import Image
 import tensorflow as tf
 
 # ── CONFIG — adjust if your paths differ ──────────────────────────────────────
-MODEL_PATH  = "/content/plant_disease_model.h5"   # path to your saved model
-TEST_DIR    = "/content/test_images"               # folder from collect script
-IMG_SIZE    = (128, 128)                           # must match training size
+MODEL_PATH       = "/content/plant_disease_model.keras"
+CLASS_NAMES_PATH = "/content/class_names.json"
+TEST_DIR         = "/content/test_samples"
+IMG_SIZE         = (128, 128)                      # must match training size
+BATCH_SIZE       = 32
 # ──────────────────────────────────────────────────────────────────────────────
 
-# Load model
 print("Loading model …")
 model = tf.keras.models.load_model(MODEL_PATH)
-print(f"  Model loaded  — input shape: {model.input_shape}\n")
+with open(CLASS_NAMES_PATH) as f:
+    class_names = json.load(f)
+print(f"  {len(class_names)} classes, input shape {model.input_shape}\n")
 
-# Load class names (same order as training)
-# This grabs them from the training data directory structure if still present,
-# otherwise falls back to the manifest labels.
-TRAIN_DATA_DIR = "/content/plantvillage/PlantVillage"  # adjust if needed
-if os.path.isdir(TRAIN_DATA_DIR):
-    class_names = sorted(os.listdir(TRAIN_DATA_DIR))
-    print(f"  Found {len(class_names)} classes from training directory.\n")
-else:
-    print("  ⚠️  Training directory not found — using manifest labels only.")
-    print("     Predicted class INDEX will be shown instead of name.\n")
-    class_names = None
+unknown = sorted(
+    d for d in os.listdir(TEST_DIR)
+    if os.path.isdir(os.path.join(TEST_DIR, d)) and d not in class_names
+)
+if unknown:
+    raise SystemExit(f"These test folders are not training classes: {unknown}\n"
+                     f"Rename them to one of: {class_names}")
 
-# Load manifest
-manifest_path = os.path.join(TEST_DIR, "manifest.json")
-with open(manifest_path) as f:
-    manifest = json.load(f)
+# The model rescales internally, so images go in as raw 0–255 pixels — same as training.
+test_data = tf.keras.utils.image_dataset_from_directory(
+    TEST_DIR,
+    class_names=class_names,
+    shuffle=False,
+    image_size=IMG_SIZE,
+    batch_size=BATCH_SIZE,
+)
 
-# Filter to successfully downloaded images
-images_to_test = [m for m in manifest if m["status"] == "ok"]
-print(f"{'='*65}")
-print(f"  Testing {len(images_to_test)} images")
-print(f"{'='*65}")
-print(f"  {'File':<35} {'Expected label':<30} {'Result'}")
-print(f"  {'-'*35} {'-'*30} {'-'*20}")
+test_loss, test_acc = model.evaluate(test_data, verbose=0)
+probs  = model.predict(test_data, verbose=0)
+y_pred = probs.argmax(axis=1)
+y_true = np.concatenate([y.numpy() for _, y in test_data])
 
-correct   = 0
-incorrect = 0
-results   = []
+print(f"\n{'='*80}")
+print(f"  {'File':<45} {'Result':<10} Predicted (confidence)")
+print(f"  {'-'*45} {'-'*10} {'-'*22}")
 
-for item in images_to_test:
-    img_path = item["path"]
-    true_label = item["label"]
-
-    # Preprocess
-    img = Image.open(img_path).convert("RGB").resize(IMG_SIZE)
-    arr = np.array(img) / 255.0
-    arr = np.expand_dims(arr, axis=0)   # (1, H, W, 3)
-
-    # Predict
-    preds      = model.predict(arr, verbose=0)
-    pred_idx   = int(np.argmax(preds))
-    confidence = float(np.max(preds)) * 100
-
-    if class_names:
-        pred_label = class_names[pred_idx]
-    else:
-        pred_label = f"class_{pred_idx}"
-
-    # Normalise comparison (strip spaces, lower-case)
-    match = pred_label.strip().lower() == true_label.strip().lower()
-    status = "✅ CORRECT" if match else "❌ WRONG  "
-    if match:
-        correct += 1
-    else:
-        incorrect += 1
-
-    fname = item["filename"]
-    print(f"  {fname:<35} {true_label:<30} {status}  ({confidence:.1f}%)")
-    if not match:
-        print(f"    └─ predicted: {pred_label}")
-
+results = []
+for path, t, p, pr in zip(test_data.file_paths, y_true, y_pred, probs):
+    rel = os.path.relpath(path, TEST_DIR)
+    correct = bool(t == p)
+    confidence = float(pr[p]) * 100
+    print(f"  {rel[-45:]:<45} {'✅' if correct else '❌':<10} {class_names[p]} ({confidence:.1f}%)")
     results.append({
-        "file":          fname,
-        "true_label":    true_label,
-        "pred_label":    pred_label,
-        "confidence":    round(confidence, 2),
-        "correct":       match,
+        "file":       rel,
+        "true_label": class_names[t],
+        "pred_label": class_names[p],
+        "confidence": round(confidence, 2),
+        "correct":    correct,
     })
 
-# ── Summary ────────────────────────────────────────────────────────────────────
-total    = correct + incorrect
-accuracy = (correct / total * 100) if total else 0
+total   = len(results)
+correct = sum(r["correct"] for r in results)
 
-print(f"\n{'='*65}")
-print(f"  RESULTS SUMMARY")
+print(f"\n{'='*80}")
+print("  PER-CLASS")
+for i, c in enumerate(class_names):
+    mask = y_true == i
+    if mask.any():
+        print(f"  {c:<45} {int((y_pred[mask] == i).sum())}/{int(mask.sum())}")
+
+print(f"\n{'='*80}")
+print("  RESULTS SUMMARY")
 print(f"  Total images tested : {total}")
 print(f"  Correct             : {correct}")
-print(f"  Incorrect           : {incorrect}")
-print(f"  Test Accuracy       : {accuracy:.1f}%")
-print(f"{'='*65}")
+print(f"  Incorrect           : {total - correct}")
+print(f"  Test Accuracy       : {test_acc:.1%}")
+print(f"  Test Loss           : {test_loss:.3f}")
+print(f"{'='*80}")
 
-# Save report
 report = {
-    "total":    total,
-    "correct":  correct,
-    "incorrect": incorrect,
-    "accuracy_pct": round(accuracy, 2),
-    "per_image": results,
+    "total":        total,
+    "correct":      correct,
+    "incorrect":    total - correct,
+    "accuracy_pct": round(test_acc * 100, 2),
+    "loss":         round(float(test_loss), 4),
+    "per_image":    results,
 }
 report_path = os.path.join(TEST_DIR, "test_report.json")
 with open(report_path, "w") as f:
     json.dump(report, f, indent=2)
 print(f"\n  Full report saved to: {report_path}")
-print(f"  ➡  Screenshot this output for your Checkpoint 2 evidence!")
