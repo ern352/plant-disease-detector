@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plant Disease Detector – Free AI Leaf Disease Checker for 14 Crops</title>
+<meta name="description" content="Free AI plant disease detector. Upload a photo of one leaf from apple, tomato, potato, corn, grape, pepper, strawberry and 7 more crops, and get an instant diagnosis for 26 diseases with care tips.">
+<meta name="keywords" content="plant disease detector, leaf disease detection, AI plant doctor, plant disease identification, tomato leaf disease, potato blight, apple scab, corn rust, crop disease app">
+<link rel="canonical" href="https://ern352.github.io/plant-disease-detector/">
+<meta name="theme-color" content="#10b981">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Plant Disease Detector">
+<meta property="og:title" content="Plant Disease Detector – Is your plant sick? Ask the leaf.">
+<meta property="og:description" content="Free AI leaf check for 26 diseases on 14 crops. Snap one leaf, get a diagnosis, confidence and care tips in seconds.">
+<meta property="og:url" content="https://ern352.github.io/plant-disease-detector/">
+<meta property="og:image" content="https://ern352.github.io/plant-disease-detector/social_preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Plant Disease Detector: Is your plant sick? Ask the leaf.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plant Disease Detector – Is your plant sick? Ask the leaf.">
+<meta name="twitter:description" content="Free AI leaf check for 26 diseases on 14 crops, with care tips.">
+<meta name="twitter:image" content="https://ern352.github.io/plant-disease-detector/social_preview.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Plant Disease Detector",
+  "url": "https://ern352.github.io/plant-disease-detector/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Free AI tool that identifies 26 plant leaf diseases on 14 crops from a single photo and gives care tips.",
+  "image": "https://ern352.github.io/plant-disease-detector/social_preview.jpg",
+  "sameAs": ["https://huggingface.co/spaces/ERN-low/plant-disease-detector", "https://github.com/ern352/plant-disease-detector"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is the Plant Disease Detector free?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes. It is free, needs no account and works in any web browser, including Safari, Chrome, Firefox and Edge, on phones and computers."}},
+    {"@type": "Question", "name": "Which crops can it check?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Apple, bell pepper, blueberry, cherry, corn, grape, orange, peach, potato, raspberry, soybean, squash, strawberry and tomato: 38 leaf conditions in total (26 diseases and 12 healthy)."}},
+    {"@type": "Question", "name": "How accurate is it?",
+     "acceptedAnswer": {"@type": "Answer", "text": "93.7% on 190 lab test photos it never saw during training, and 61% on 236 real garden photos, with the right answer in its top 3 guesses 87% of the time. Below 50% confidence it says it is not sure instead of guessing."}},
+    {"@type": "Question", "name": "Are my photos stored?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. Photos are only used to make the prediction and are automatically deleted from the server within an hour."}}
+  ]
+}
+</script>
+
+<style>
+  :root {
+    --bg: #f5f7f2; --card: #ffffff; --text: #1c1917; --muted: #57534e; --line: #e7e5e4;
+    --green: #059669; --green-2: #10b981; --lime: #84cc16; --soft: rgba(16,185,129,.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0b110d; --card: #131b16; --text: #f5f5f4; --muted: #a8a29e; --line: #26332b; --soft: rgba(16,185,129,.14); }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.6;
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  a { color: var(--green-2); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header.hero { text-align: center; padding: 56px 0 32px; }
+  .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; background: var(--soft);
+    color: var(--green); font-weight: 600; font-size: 14px; }
+  h1 { font-size: clamp(36px, 7vw, 64px); line-height: 1.05; letter-spacing: -0.035em; margin: 18px 0 14px; }
+  h1 span { background: linear-gradient(90deg, var(--green), var(--lime)); -webkit-background-clip: text;
+    background-clip: text; color: transparent; }
+  .lead { max-width: 640px; margin: 0 auto; font-size: 19px; color: var(--muted); }
+  .cta { display: inline-block; margin-top: 26px; padding: 14px 28px; border-radius: 999px; color: #fff;
+    background: linear-gradient(135deg, var(--green-2), var(--green)); text-decoration: none; font-weight: 700;
+    font-size: 17px; box-shadow: 0 8px 24px rgba(16,185,129,.30); }
+  .cta.secondary { background: none; color: var(--green-2); box-shadow: none; border: 1.5px solid var(--green-2); margin-left: 8px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 36px 0 8px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; text-align: left; }
+  .stat b { display: block; font-size: 26px; letter-spacing: -0.02em; }
+  .stat span { font-size: 14px; color: var(--muted); }
+  section { margin: 56px 0; }
+  h2 { font-size: clamp(26px, 4vw, 34px); letter-spacing: -0.025em; margin: 0 0 14px; }
+  .app { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+  .app iframe { display: block; width: 100%; height: 1000px; border: 0; }
+  .note { font-size: 14px; color: var(--muted); }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .steps div, .crop { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px 20px; }
+  .steps em { font-style: normal; font-weight: 800; color: var(--green-2); }
+  .steps h3, .crop h3 { margin: 6px 0 4px; font-size: 18px; }
+  .steps p, .crop p { margin: 0; color: var(--muted); font-size: 15px; }
+  .crops { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 15px; }
+  th { background: var(--soft); }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; margin-bottom: 10px; }
+  summary { font-weight: 700; cursor: pointer; }
+  details p { color: var(--muted); margin: 8px 0 0; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; text-align: center; }
+  @media (max-width: 600px) {
+    header.hero { padding-top: 36px; }
+    .lead { font-size: 17px; }
+    .cta.secondary { margin: 10px 0 0; }
+    .app iframe { height: 1400px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="badge">🌿 Free AI plant doctor</div>
+  <h1>Is your plant sick?<br><span>Ask the leaf.</span></h1>
+  <p class="lead">The <strong>Plant Disease Detector</strong> identifies <strong>26 leaf diseases on 14 crops</strong>
+    from a single photo. Snap one leaf and get a diagnosis, how confident the AI is, and what you can do, in seconds.
+    Free, no account needed.</p>
+  <a class="cta" href="https://ern-low-plant-disease-detector.hf.space" rel="noopener">Open the app →</a>
+  <a class="cta secondary" href="#try">Try it below</a>
+  <div class="stats">
+    <div class="stat"><b>93.7%</b><span>accurate on lab test photos</span></div>
+    <div class="stat"><b>61%</b><span>on real garden photos (87% in top 3)</span></div>
+    <div class="stat"><b>14 crops</b><span>26 diseases + healthy</span></div>
+    <div class="stat"><b>Private</b><span>photos auto-deleted</span></div>
+  </div>
+</header>
+
+<section id="try">
+  <h2>Check a leaf now</h2>
+  <div class="app">
+    <iframe src="https://ern-low-plant-disease-detector.hf.space" title="Plant Disease Detector app"
+            loading="lazy" allow="camera; clipboard-read; clipboard-write"></iframe>
+  </div>
+  <p class="note">If the app is asleep it can take about a minute to wake up. Prefer full screen?
+    <a href="https://ern-low-plant-disease-detector.hf.space" rel="noopener">Open the app in its own page</a>.</p>
+</section>
+
+<section>
+  <h2>How to use it</h2>
+  <div class="steps">
+    <div><em>01</em><h3>Photograph one leaf</h3><p>Close up, in daylight, in focus. A plain background gives the best results.</p></div>
+    <div><em>02</em><h3>Upload or take the photo</h3><p>Works on iPhone, Android and computers, in Safari, Chrome, Firefox or Edge. JPG or PNG up to 10 MB.</p></div>
+    <div><em>03</em><h3>Read your report</h3><p>See the most likely condition, the confidence, what causes it, care tips, and the top 3 guesses.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Crops and diseases it can identify</h2>
+  <div class="crops">
+    <div class="crop"><h3>🍎 Apple</h3><p>Apple scab · Black rot · Cedar apple rust · Healthy</p></div>
+    <div class="crop"><h3>🫑 Bell pepper</h3><p>Bacterial spot · Healthy</p></div>
+    <div class="crop"><h3>🫐 Blueberry</h3><p>Healthy</p></div>
+    <div class="crop"><h3>🍒 Cherry</h3><p>Powdery mildew · Healthy</p></div>
+    <div class="crop"><h3>🌽 Corn (maize)</h3><p>Gray leaf spot (Cercospora) · Common rust · Northern leaf blight · Healthy</p></div>
+    <div class="crop"><h3>🍇 Grape</h3><p>Black rot · Esca (black measles) · Leaf blight (Isariopsis) · Healthy</p></div>
+    <div class="crop"><h3>🍊 Orange</h3><p>Huanglongbing (citrus greening)</p></div>
+    <div class="crop"><h3>🍑 Peach</h3><p>Bacterial spot · Healthy</p></div>
+    <div class="crop"><h3>🥔 Potato</h3><p>Early blight · Late blight · Healthy</p></div>
+    <div class="crop"><h3>🌿 Raspberry</h3><p>Healthy</p></div>
+    <div class="crop"><h3>🫘 Soybean</h3><p>Healthy</p></div>
+    <div class="crop"><h3>🎃 Squash</h3><p>Powdery mildew</p></div>
+    <div class="crop"><h3>🍓 Strawberry</h3><p>Leaf scorch · Healthy</p></div>
+    <div class="crop"><h3>🍅 Tomato</h3><p>Bacterial spot · Early blight · Late blight · Leaf mold · Septoria leaf spot · Spider mites · Target spot · Yellow leaf curl virus · Mosaic virus · Healthy</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>How accurate is it?</h2>
+  <table>
+    <tr><th>Test (photos the AI never saw while training)</th><th>Result</th></tr>
+    <tr><td>190 lab photos (one leaf on a plain background)</td><td><strong>93.7%</strong> correct</td></tr>
+    <tr><td>236 real garden and field photos</td><td><strong>61%</strong> correct · right answer in the top 3: <strong>87%</strong></td></tr>
+  </table>
+  <p class="note">Real garden photos are harder than lab photos, so always check the top 3 guesses. When the AI is
+    less than 50% sure, it says "Not sure" instead of guessing. Care tips are general guidance, not a substitute for an
+    agronomist or plant pathologist.</p>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <p>The detector uses an <strong>EfficientNetV2</strong> convolutional neural network built with TensorFlow, trained with
+    transfer learning on the <strong>PlantVillage</strong> dataset (about 54,000 lab photos of leaves) plus the
+    <strong>PlantDoc</strong> dataset (about 2,000 real-world photos). It runs on Hugging Face Spaces with a Gradio
+    interface. The training notebooks and code are open source on
+    <a href="https://github.com/ern352/plant-disease-detector" rel="noopener">GitHub</a>.</p>
+</section>
+
+<section>
+  <h2>Frequently asked questions</h2>
+  <details><summary>Is it free? Do I need an account?</summary>
+    <p>It's completely free and needs no account. It works in any web browser (Safari, Chrome, Firefox, Edge) on phones and computers.</p></details>
+  <details><summary>Are my photos stored?</summary>
+    <p>No. Photos are only used to make the prediction and are deleted from the server within an hour. Uploads are limited to 10 MB.</p></details>
+  <details><summary>What if my plant isn't on the list?</summary>
+    <p>The AI only knows the 14 crops above. For other plants it will usually say "Not sure" or give a wrong guess.</p></details>
+  <details><summary>Who made it?</summary>
+    <p>It's a student capstone project in machine learning, built from data cleaning and model training through to a public website.</p></details>
+</section>
+
+</div>
+<footer>
+  <div class="wrap">
+    🌿 Plant Disease Detector · <a href="https://ern-low-plant-disease-detector.hf.space" rel="noopener">Open the app</a> ·
+    <a href="https://huggingface.co/spaces/ERN-low/plant-disease-detector" rel="noopener">Hugging Face</a> ·
+    <a href="https://github.com/ern352/plant-disease-detector" rel="noopener">GitHub</a>
+  </div>
+</footer>
+</body>
+</html>

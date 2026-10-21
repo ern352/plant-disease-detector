@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ern352.github.io/plant-disease-detector/sitemap.xml
