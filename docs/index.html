@@ -126,6 +126,7 @@
     <div class="stat"><b>61%</b><span>on real garden photos (87% in top 3)</span></div>
     <div class="stat"><b>14 crops</b><span>26 diseases + healthy</span></div>
     <div class="stat"><b>Private</b><span>photos auto-deleted</span></div>
+    <div class="stat" id="scan-count" hidden><b>–</b><span>visitors have scanned a leaf</span></div>
   </div>
 </header>
 
@@ -211,5 +212,17 @@
 </footer>
 <!-- Anonymous visit counting (GoatCounter: no cookies, no personal data) -->
 <script data-goatcounter="https://ern-low.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- Public "visitors have scanned a leaf" counter (stays hidden if the count is unavailable) -->
+<script>
+fetch("https://ern-low.goatcounter.com/counter/scan.json")
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    if (!d || !d.count || d.count === "0") return;
+    const el = document.getElementById("scan-count");
+    el.querySelector("b").textContent = d.count;
+    el.hidden = false;
+  })
+  .catch(() => {});
+</script>
 </body>
 </html>
